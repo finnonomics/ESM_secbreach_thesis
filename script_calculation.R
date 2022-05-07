@@ -6,7 +6,7 @@
 
 # Creator: Finn Hagemann
 # First version: 2022-03-06
-# This version: 2022-04-23
+# This version: 2022-05-07
 
 # Make sure your folders are set up
 # data_input (only raw data!)
@@ -216,7 +216,7 @@ df_AAR <- AAR %>%
 #Create time-series plot for AARs
 AAR %>% 
   left_join(., AAR_ttest, by = c(EventTime_trdg = "EventTime_trdg")) %>% 
-  mutate(dataset = "All Incidents") %>% 
+  mutate(dataset = "All incidents") %>% 
   mutate(significance = ifelse(p.value < 0.01, "p < 0.01",
                                ifelse(p.value < 0.05, "p < 0.05",
                                       ifelse(p.value < 0.1, "p < 0.1", "not significant")))) %>% 
