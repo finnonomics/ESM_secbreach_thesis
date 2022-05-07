@@ -96,7 +96,7 @@ Breaches_trdg %>%
   geom_density(alpha = 0.5) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
   scale_fill_manual(values = c("#ba0020", "#5b6770", "#90c9df")) +
-  labs(x = "Breach Dates per year",
+  labs(x = "Breach dates per year",
        y = "Density",
        fill = "") +
   theme_classic()
@@ -230,9 +230,9 @@ AAR %>%
   scale_y_continuous(labels = scales::percent) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 15)) +
   facet_wrap(~dataset, scales = "fixed") +
-  labs(x = "Days around Breach Announcement", 
-       y = "Average Abnormal Returns (AARs)") +
-  guides(color = guide_legend(title = "T-Test Results")) + 
+  labs(x = "Days around breach announcement", 
+       y = "AARs") +
+  guides(color = guide_legend(title = "T-Test results")) + 
   theme_classic()
 
 ggsave("figures_tables/plot_AAR_full.png",
@@ -303,7 +303,7 @@ rbind(CAAR5, CAAR10, CAAR30) %>%
                                ifelse(p.value < 0.05, "**",
                                       ifelse(p.value < 0.1, "*", "")))) %>% 
   arrange(End) %>% 
-  kable(col.names = c("CAAR's", "Start Day", "End Day", "T-Value", "P-Value", "")) %>%
+  kable(col.names = c("CAAR's", "Start day", "End day", "T-Value", "P-Value", "")) %>%
   kable_styling() %>% 
   add_header_above(c("CAAR's across varying time spans for full data set" = 6)) %>% 
   save_kable(file = "figures_tables/table_CAARs.html",
@@ -370,7 +370,7 @@ df_AAR_cysec <- AAR_cysec %>%
 #Create time-series plot for AARs for cybersecurity incidents
 AAR_cysec %>% 
   left_join(., AAR_ttest_cysec, by = c(EventTime_trdg = "EventTime_trdg")) %>% 
-  mutate(dataset = "Cybersecurity Incidents") %>% 
+  mutate(dataset = "Cybersecurity incidents") %>% 
   mutate(significance = ifelse(p.value < 0.01, "p < 0.01",
                                ifelse(p.value < 0.05, "p < 0.05",
                                       ifelse(p.value < 0.1, "p < 0.1", "not significant")))) %>% 
@@ -384,9 +384,9 @@ AAR_cysec %>%
   scale_y_continuous(labels = scales::percent) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 15)) +
   facet_wrap(~dataset, scales = "fixed") +
-  labs(x = "Days around Breach Announcement", 
-       y = "Average Abnormal Returns (AARs)") +
-  guides(color = guide_legend(title = "T-Test Results")) + 
+  labs(x = "Days around breach announcement", 
+       y = "AARs") +
+  guides(color = guide_legend(title = "T-Test results")) + 
   theme_classic()
 
 ggsave("figures_tables/plot_AAR_cysec.png",
@@ -458,7 +458,7 @@ rbind(CAAR5_cysec, CAAR10_cysec, CAAR30_cysec) %>%
                                ifelse(p.value < 0.05, "**",
                                       ifelse(p.value < 0.1, "*", "")))) %>% 
   arrange(End) %>% 
-  kable(col.names = c("CAAR's", "Start Day", "End Day", "T-Value", "P-Value", "")) %>%
+  kable(col.names = c("CAAR's", "Start day", "dnd Day", "T-Value", "P-Value", "")) %>%
   kable_styling() %>% 
   add_header_above(c("CAAR's across varying time spans for cybersecurity incidents" = 6)) %>% 
   save_kable(file = "figures_tables/table_CAARs_cysec.html",
@@ -527,11 +527,11 @@ df_AAR_ransom <- AAR_ransom %>%
   arrange(EventTime_trdg)
 
 #Create graphic for AARs
-AAR_ransom %>% 
+df_AAR_ransom %>% 
   mutate(significance = ifelse(p.value < 0.01, "p < 0.01",
                                ifelse(p.value < 0.05, "p < 0.05",
                                       ifelse(p.value < 0.1, "p < 0.1", "not significant")))) %>% 
-  mutate(dataset = "Ransomware Incidents") %>% 
+  mutate(dataset = "Ransomware incidents") %>% 
   ggplot(aes(x = EventTime_trdg, y = AAR)) +
   geom_line() +
   geom_point(aes(x = EventTime_trdg, y = AAR, color = significance), size = 2) +
@@ -542,9 +542,9 @@ AAR_ransom %>%
   scale_y_continuous(labels = scales::percent) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 15)) +
   facet_wrap(~dataset, scales = "fixed") +
-  labs(x = "Days around Breach Announcement", 
-       y = "Average Abnormal Returns (AARs)") +
-  guides(color = guide_legend(title = "T-Test Results")) + 
+  labs(x = "Days around breach announcement", 
+       y = "AARs") +
+  guides(color = guide_legend(title = "T-Test results")) + 
   theme_classic()
 
 ggsave("figures_tables/plot_AAR_ransom.png",
@@ -615,7 +615,7 @@ rbind(CAAR5_ransom, CAAR10_ransom, CAAR30_ransom) %>%
                                ifelse(p.value < 0.05, "**",
                                       ifelse(p.value < 0.1, "*", "")))) %>% 
   arrange(End) %>% 
-  kable(col.names = c("CAAR's", "Start Day", "End Day", "T-Value", "P-Value", "")) %>%
+  kable(col.names = c("CAAR's", "Start day", "End day", "T-Value", "P-Value", "")) %>%
   kable_styling() %>% 
   add_header_above(c("CAAR's across varying time spans for ransomware incidents" = 6)) %>% 
   save_kable(file = "figures_tables/table_CAARs_ransom.html",
@@ -660,7 +660,7 @@ rbind(Breaches_estudy_moderator5,
                                       ifelse(p.value < 0.1, "*", "")))) %>% 
   filter(term == "Ransomware") %>% 
   select(-term) %>% 
-  kable(col.names = c("Time Span", "Estimate", "Std. Error", "T-Value", "P-Value", "")) %>%
+  kable(col.names = c("Time span", "Estimate", "Std. error", "T-Value", "P-Value", "")) %>%
   kable_styling() %>% 
   add_header_above(c("OLS: AR ~ Ransomware (varying time periods)" = 6)) %>% 
   save_kable(file = "figures_tables/table_moderator_ransom.html",
@@ -722,71 +722,8 @@ df_AAR %>%
                       "AAR", "T-Value", "P-Value", "")) %>%
   kable_styling() %>% 
   add_header_above(c("Time" = 1, 
-                     "Full Sample" = 4, 
-                     "Cybersec. Breaches" = 4, 
-                     "Ransomware" = 4)) %>% 
+                     "Full sample" = 4, 
+                     "Cybersec. incidents" = 4, 
+                     "Ransomware incidents" = 4)) %>% 
   save_kable(file = "figures_tables/table_full_AARs.html",
              bs_theme = "readable")
-
-#### Snippets ####
-
-#Grafic of AR's for case ID = 3 (Bank of America)
-Breaches_estudy %>%
-  drop_na(AR) %>% 
-  filter(ID == 3) %>% #filter for one ID
-  ggplot(aes(x = EventTime_trdg, y = AR)) +
-  geom_line() +
-  scale_colour_manual(name="", values="#90cadf") +
-  geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0, 
-             color = "#d11647") +
-  facet_wrap(~Company, scales = "fixed") +
-  scale_y_continuous(labels = scales::percent) +
-  labs(x = "Days around Breach Announcement", y = "Abnormal Returns") +
-  theme_classic()
-
-ggsave("figures_tables/ARexample_BankofAmerica.png",
-       width = 2000,
-       height = 1250,
-       units = "px")
-
-#Inspect AR's for one case
-Breaches_estudy %>% 
-  filter(ID == 3) %>% #filter for one ID
-  filter(EventTime_trdg >= -2) %>% 
-  mutate(Exp_Return = alpha_estimate + beta_estimate*Return_sp500) %>% 
-  select(Company, EventTime_trdg, AR, Exp_Return, Return_adj)
-
-AAR %>% 
-  rename(AAR_full = AAR,
-         EventTime = EventTime_trdg) %>% 
-  left_join(AAR_cysec, 
-            by = c(EventTime = "EventTime_trdg")) %>% 
-  rename(AAR_cysec = AAR) %>% 
-  left_join(AAR_ransom, 
-            by = c(EventTime = "EventTime_trdg")) %>% 
-  rename(AAR_ransom = AAR) %>% 
-  ggplot(aes(x = EventTime, y = AAR_full)) +
-  geom_line(aes(x = EventTime, y = AAR_full, color = "Full data set")) +
-  geom_line(aes(x = EventTime, y = AAR_cysec, color = "Cybersecurity \nIncidents")) +
-  scale_colour_manual(name="", values=c("#90c9df", "#ba0020")) +
-  geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0, 
-             color = "#d11647") +
-  scale_y_continuous(labels = scales::percent) +
-  labs(x = "Days around Breach Announcement", y = "Average Abnormal Returns") +
-  theme_classic()
-
-
-Breaches_estudy %>% 
-  mutate(Ransomware = ifelse(Ransomware == T, "Ransomware Incident", "Other Incident")) %>% 
-  ggplot(aes(x = Ransomware, y = AR, color = Ransomware)) +
-  geom_boxplot() +
-  scale_color_manual(values = c("#ba0020", "#5b6770")) +
-  labs(x = "", y = "Abnormal Returns") +
-  scale_y_continuous(labels = scales::percent, limits=c(-0.01, 0.01)) +
-  guides(color = "none") + 
-  theme_classic()
-
-
-
